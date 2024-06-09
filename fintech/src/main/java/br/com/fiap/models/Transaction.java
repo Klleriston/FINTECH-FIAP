@@ -1,5 +1,6 @@
 package br.com.fiap.models;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public class Transaction {
@@ -7,10 +8,10 @@ public class Transaction {
     private Account acc_id;
     private String title;
     private String description;
-    private int value;
+    private BigDecimal value;
     private LocalDate dateTransaction;
     
-    public Transaction(int id, Account account_id, String title, String description, int value, LocalDate dateTransaction) {
+    public Transaction(int id, Account account_id, String title, String description, BigDecimal value, LocalDate dateTransaction) {
         this.id = id;
         this.acc_id = account_id;
         this.title = title;
@@ -42,10 +43,10 @@ public class Transaction {
     public void setDescription(String description) {
         this.description = description;
     }
-    public int getValue() {
+    public BigDecimal getValue() {
         return value;
     }
-    public void setValue(int value) {
+    public void setValue(BigDecimal value) {
         this.value = value;
     }
     public LocalDate getDateTransaction() {

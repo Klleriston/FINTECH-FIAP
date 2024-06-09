@@ -6,7 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import br.com.fiap.models.*;
+import br.com.fiap.models.Transaction;
+import br.com.fiap.models.Account;
 
 public class TransactionDao {
     private Connection connection;
@@ -16,13 +17,13 @@ public class TransactionDao {
     }
 
     public void insert(Transaction transaction) {
-        String sql = "INSERT INTO tb_transactions(acc_id, title, description, value, date_transaction) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO tb_transactions(id, acc_id, title, description, value, date_transaction) VALUES (trans_seq.NEXTVAL, ?, ?, ?, ?, ?)";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setInt(1, transaction.getAccount().getId());
             ps.setString(2, transaction.getTitle());
             ps.setString(3, transaction.getDescription());
-            ps.setInt(4, transaction.getValue());
+            ps.setBigDecimal(4, transaction.getValue());
             ps.setDate(5, java.sql.Date.valueOf(transaction.getDateTransaction()));
             ps.executeUpdate();
             ps.close();
@@ -32,14 +33,14 @@ public class TransactionDao {
     }
 
     public List<Transaction> getAll() {
-        String sql = "SELECT * FROM tb_transactions ORDER BY id";
+        String sql = "SELECT t.*, a.name, a.document_id, a.balance FROM tb_transactions t JOIN tb_accounts a ON t.acc_id = a.id ORDER BY t.id";
         List<Transaction> list = new ArrayList<>();
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 Account account = new Account(
-                    rs.getInt("id"),
+                    rs.getInt("acc_id"),
                     rs.getString("name"),
                     rs.getString("document_id"),
                     rs.getBigDecimal("balance")
@@ -49,7 +50,7 @@ public class TransactionDao {
                     account,
                     rs.getString("title"),
                     rs.getString("description"),
-                    rs.getInt("value"),
+                    rs.getBigDecimal("value"),
                     rs.getDate("date_transaction").toLocalDate()
                 );
                 list.add(transaction);
@@ -69,7 +70,7 @@ public class TransactionDao {
             ps.setInt(1, transaction.getAccount().getId());
             ps.setString(2, transaction.getTitle());
             ps.setString(3, transaction.getDescription());
-            ps.setInt(4, transaction.getValue());
+            ps.setBigDecimal(4, transaction.getValue());
             ps.setDate(5, java.sql.Date.valueOf(transaction.getDateTransaction()));
             ps.setInt(6, transaction.getId());
             ps.executeUpdate();
