@@ -6,8 +6,8 @@ import java.sql.SQLException;
 
 public class DAO {
 	private static final String URL = "jdbc:oracle:thin:@oracle.fiap.com.br:1521:orcl";
-	private static final String USER = "rm552849";
-	private static final String PASSWORD = "050303"; 
+	private static final String USER = "SEU RM";
+	private static final String PASSWORD = "SUA SENHA"; 
 	
 	
 	public static Connection connect()  {
