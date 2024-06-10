@@ -17,15 +17,20 @@ public class TransactionDao {
     }
 
     public void insert(Transaction transaction) {
-        String sql = "INSERT INTO tb_transactions(id, acc_id, title, description, value, date_transaction) VALUES (trans_seq.NEXTVAL, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO tb_transactions(acc_id, title, description, value, date_transaction) VALUES (?, ?, ?, ?, ?)";
         try {
-            PreparedStatement ps = connection.prepareStatement(sql);
+        	PreparedStatement ps = connection.prepareStatement(sql, new String[]{"id"});
             ps.setInt(1, transaction.getAccount().getId());
             ps.setString(2, transaction.getTitle());
             ps.setString(3, transaction.getDescription());
             ps.setBigDecimal(4, transaction.getValue());
             ps.setDate(5, java.sql.Date.valueOf(transaction.getDateTransaction()));
             ps.executeUpdate();
+            try (ResultSet generatedKeys = ps.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    transaction.setId(generatedKeys.getInt(1));
+                }
+            }
             ps.close();
         } catch(SQLException e) {
             e.printStackTrace();
@@ -61,6 +66,33 @@ public class TransactionDao {
             e.printStackTrace();
         }
         return list;
+    }
+    
+    public Transaction getById(int id) throws SQLException {
+        String sql = "SELECT t.*, a.name, a.document_id, a.balance FROM tb_transactions t JOIN tb_accounts a ON t.acc_id = a.id WHERE t.id = ?";
+        Transaction transaction = null;
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, id);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    Account account = new Account(
+                        rs.getInt("acc_id"),
+                        rs.getString("name"),
+                        rs.getString("document_id"),
+                        rs.getBigDecimal("balance")
+                    );
+                    transaction = new Transaction(
+                        rs.getInt("id"),
+                        account,
+                        rs.getString("title"),
+                        rs.getString("description"),
+                        rs.getBigDecimal("value"),
+                        rs.getDate("date_transaction").toLocalDate()
+                    );
+                }
+            }
+        }
+        return transaction;
     }
 
     public void update(Transaction transaction) {

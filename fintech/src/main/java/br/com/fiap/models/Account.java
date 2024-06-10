@@ -16,6 +16,11 @@ public class Account {
 		this.document_id = document_id;
 		this.balance = balance;
 	}
+	public Account(String name, String documentId, BigDecimal balance) {
+        this.name = name;
+        this.document_id = documentId;
+        this.balance = balance;
+    }
 	public int getId() {
 		return id;
 	}

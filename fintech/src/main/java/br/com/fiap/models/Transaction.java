@@ -19,6 +19,13 @@ public class Transaction {
         this.value = value;
         this.dateTransaction = dateTransaction;
     }
+    public Transaction(Account account_id, String title, String description, BigDecimal value, LocalDate dateTransaction) {
+        this.acc_id = account_id;
+        this.title = title;
+        this.description = description;
+        this.value = value;
+        this.dateTransaction = dateTransaction;
+    }
     public int getId() {
         return id;
     }
