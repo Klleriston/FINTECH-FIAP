@@ -73,6 +73,6 @@ Trabalho final de semestre que consiste em um banco virtual onde o usuário pode
    ```
 
 8. **Acessar a Aplicação**
-   - Abra o navegador e acesse `http://localhost:8080/nome-do-projeto`.
+   - Abra o navegador e acesse `http://localhost:8080/fintech`.
 
 Se necessário, consulte o arquivo `dump.sql` na raiz do projeto para configurar o banco de dados.
