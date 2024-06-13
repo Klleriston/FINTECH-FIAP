@@ -32,32 +32,32 @@ public class Main {
             return;
         }
 
-        Account accMain = new Account("Conta principal", "1111111111", new BigDecimal("3000"));
-        Account accMock = new Account("Conta mock", "222222222", new BigDecimal("50000"));
-
-        Transaction transactionMain = new Transaction(accMain, "Conta de luz", "Pagamento da conta de luz", new BigDecimal("199"), LocalDate.of(2024, 3, 14));
-        Transaction transactionMock = new Transaction(accMock, "Conta de internet", "Pagamento da conta de internet", new BigDecimal("1000"), LocalDate.of(2024, 3, 14));
-
-        AccountDao accDao = new AccountDao(connection);
-        accDao.insert(accMain);
-        accDao.insert(accMock);
-        List<Account> accounts = accDao.getAll();
-        for (Account a : accounts) {
-            System.out.println(a.toString());
-        }
-
-        TransactionDao transactionDao = new TransactionDao(connection);
-        transactionDao.insert(transactionMain);
-        transactionDao.insert(transactionMock);
-        List<Transaction> transactions = transactionDao.getAll();
-        for (Transaction t : transactions) {
-            System.out.println(t.toString());
-        }
-
-        try {
-            connection.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+//        Account accMain = new Account("Conta principal", "1111111111", new BigDecimal("3000"));
+//        Account accMock = new Account("Conta mock", "222222222", new BigDecimal("50000"));
+//
+//        Transaction transactionMain = new Transaction(accMain, "Conta de luz", "Pagamento da conta de luz", new BigDecimal("199"), LocalDate.of(2024, 3, 14));
+//        Transaction transactionMock = new Transaction(accMock, "Conta de internet", "Pagamento da conta de internet", new BigDecimal("1000"), LocalDate.of(2024, 3, 14));
+//
+//        AccountDao accDao = new AccountDao(connection);
+//        accDao.insert(accMain);
+//        accDao.insert(accMock);
+//        List<Account> accounts = accDao.getAll();
+//        for (Account a : accounts) {
+//            System.out.println(a.toString());
+//        }
+//
+//        TransactionDao transactionDao = new TransactionDao(connection);
+//        transactionDao.insert(transactionMain);
+//        transactionDao.insert(transactionMock);
+//        List<Transaction> transactions = transactionDao.getAll();
+//        for (Transaction t : transactions) {
+//            System.out.println(t.toString());
+//        }
+//
+//        try {
+//            connection.close();
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
     }
 }
